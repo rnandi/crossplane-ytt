@@ -1,0 +1,33 @@
+#@ load("@ytt:data", "data")
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: #@ data.values.name
+spec:
+  replicas: #@ data.values.replicas
+  selector:
+    matchLabels:
+      app: #@ data.values.name
+      release: #@ data.values.release.name
+  strategy:
+    type: #@ data.values.deploymentStrategy
+  template:
+    metadata:
+      labels:
+        app: #@ data.values.name
+        release: #@ data.values.release.name
+    spec:
+      serviceAccountName: #@ data.values.name
+      containers:
+      - image: #@ data.values.image.repository + ":" + data.values.image.tag
+        args: #@ data.values.args
+        imagePullPolicy: #@ data.values.image.pullPolicy
+        name: #@ data.values.name
+        resources:
+          limits:
+            cpu: 100m
+            memory: 30Mi
+          requests:
+            cpu: 100m
+            memory: 20Mi

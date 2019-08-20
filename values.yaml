@@ -1,0 +1,23 @@
+#@data/values
+---
+name: crossplane
+
+namespace: crossplane-system
+
+release:
+  name: 0.2.0
+
+replicas: 1
+
+deploymentStrategy: RollingUpdate
+
+image:
+  repository: crossplane/crossplane
+  tag: v0.2.0
+  pullPolicy: Always
+
+args:
+- '--debug'
+
+imagePullSecrets:
+- name: dockerhub
